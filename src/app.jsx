@@ -106,13 +106,13 @@ const ContactPage = () => {
           <div className="contact-item">
             <span className="contact-label">Email</span>
             <span className="contact-value">
-              <a href="mailto:you@devpunks.io">you@devpunks.io</a>
+              <a href="mailto:you@devpunks.io">NickZ@devpunks.io</a>
             </span>
           </div>
           <div className="contact-item">
             <span className="contact-label">Telegram</span>
             <span className="contact-value">
-              <a href="https://t.me/your_handle" target="_blank">
+              <a href="https://t.me/nikolai_zasukhin" target="_blank">
                 @your_handle
               </a>
             </span>
@@ -120,8 +120,8 @@ const ContactPage = () => {
           <div className="contact-item">
             <span className="contact-label">GitHub</span>
             <span className="contact-value">
-              <a href="https://github.com/your-github" target="_blank">
-                github.com/your-github
+              <a href="https://github.com/nickzasukhin" target="_blank">
+                github.com/nickzasukhin
               </a>
             </span>
           </div>
