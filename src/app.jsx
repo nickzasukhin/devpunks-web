@@ -56,17 +56,10 @@ const HomePage = () => {
         </div>
         <h1 className="page-title">
           <span className="hello-word">Hello Worlds</span>
-          <span className="hello-dots">
-            <span className="dot">.</span>
-            <span className="dot">.</span>
-            <span className="dot">.</span>
-          </span>
         </h1>
         <p className="page-subtitle">Creative dev space</p>
         <p className="page-text">
-          Небольшой уголок сети, где можно экспериментировать с идеями, анимацией
-          и интерфейсами. Здесь будет расти личный сайт, проекты и вся магия
-          вокруг devpunks.io.
+          Учусь создавать реакт приложение devpunks.io.
         </p>
       </div>
     </div>
