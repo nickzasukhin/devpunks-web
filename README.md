@@ -1,68 +1,71 @@
 # DevPunks Animation
 
-Simple React application serving a full-screen Lottie animation. Built with Docker and Nginx.
+A high-performance, lightweight landing page featuring dynamic Lottie animations with a macOS-inspired theme switcher.
 
-## 🛠 Features
+## � Key Features
 
-- **Frontend**: React 18 (via CDN), Babel Standalone (in-browser compilation).
-- **Animation**: Uses `dotlottie-player` Web Component to render JSON animations.
-- **Styling**: Inline CSS for layout and responsiveness.
-- **Infrastructure**: Lightweight Docker container based on Nginx Alpine.
+- **Theme Switching**: Seamlessly toggle between Light and Dark modes.
+- **Dynamic Lottie Animations**: Automatic switching between optimized logo animations based on the active theme.
+- **Zero-Build Architecture**: Uses React 18, Babel, and DotLottie via CDN for instant browser-side execution.
+- **Dockerized Deployment**: Served via Nginx on Alpine Linux for maximum efficiency.
 
 ## 📂 Project Structure
 
-- `index.html`: **Main entry point**. Contains the React application logic, styles, and imports dependencies via CDN.
-- `src/assets/`: Contains `animation.json`, the source file for the Lottie animation.
-- `dockerfile`: Configuration to serve the static site via Nginx.
-- `styles/global.css`: (Unused in current version) Contains unused global styles.
-- `src/app.jsx`: (Unused in current version) Contains alternate component implementation.
-
-## 🚀 Running with Docker
-
-The project is designed to be run as a container.
-
-### Build the Image
-```bash
-docker build -t devpunks-web .
+```text
+.
+├── index.html            # Main entry point (Styles, React Logic, UI)
+├── dockerfile            # Nginx production configuration
+├── README.md             # Documentation
+└── src
+    └── assets
+        ├── dark_dev_punk_logo.json    # Animation for Light theme
+        └── white_dev_punks_logo.json   # Animation for Dark theme
 ```
 
-### Run the Container
-Maps port **8080** on your host machine to port **80** in the container.
+## 🛠 Tech Stack
 
-```bash
-docker run -d -p 8080:80 --name devpunks-web devpunks-web
-```
+- **Frontend**: React 18 (via unpkg CDN)
+- **Compiler**: Babel Standalone (In-browser JSX compilation)
+- **Animation**: [DotLottie Player](https://dotlottie.io/)
+- **Server**: Nginx (Alpine)
 
-Open [http://localhost:8080](http://localhost:8080) to view the animation.
+## 📦 Local Development
 
-### Deployment (DigitalOcean)
+To run the project locally using Docker:
+
+1. **Build the image**:
+   ```bash
+   docker build -t devpunks-web .
+   ```
+
+2. **Run the container**:
+   ```bash
+   docker run -d -p 8080:80 --name devpunks-web devpunks-web
+   ```
+
+3. **Access**: Open [http://localhost:8080](http://localhost:8080)
+
+## 🌐 Deployment (DigitalOcean)
 
 The application is deployed on a DigitalOcean Droplet.
 
-- **IP Address**: `64.226.102.14`
-- **Port**: `8080`
 - **URL**: [http://64.226.102.14:8080](http://64.226.102.14:8080)
+- **Host**: `64.226.102.14`
 
-### 🛠 Maintenance & Updates
+### � Updating the Production Server
 
-To update the application on the Droplet with the latest code from the `main` branch:
+To sync the latest changes from the `main` branch to the production server:
 
-1. **SSH into the Droplet**:
+1. **Connect via SSH**:
    ```bash
    ssh root@64.226.102.14
    ```
 
-2. **Update the code and restart**:
+2. **Execute Update Pull**:
    ```bash
    cd ~/personalweb
    git pull origin main
    docker stop devpunks-web && docker rm devpunks-web
    docker build --build-arg CACHEBUST=$(date +%s) -t devpunks-web .
    docker run -d -p 8080:80 --name devpunks-web devpunks-web
-   ```
-
-3. **Verify**:
-   ```bash
-   docker ps
-   curl -I http://localhost:8080
    ```
