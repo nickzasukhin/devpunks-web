@@ -22,7 +22,7 @@ const App = () => {
         data={animationData} 
         loop
         autoplay
-        style={{ width: '500px', height: '500px' }}
+        style={{ width: '10000px', height: '10000px' }}
       />
     </div>
   );
