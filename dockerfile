@@ -1,12 +1,18 @@
 FROM nginx:alpine
 
-# Удалим дефолтную страницу nginx
-RUN rm -rf /usr/share/nginx/html/*
+# Install git to clone the repository
+RUN apk add --no-cache git
 
-# Копируем статику нашего приложения внутрь контейнера
-COPY index.html /usr/share/nginx/html/index.html
-COPY styles /usr/share/nginx/html/styles
-COPY src /usr/share/nginx/html/src
+# Create a build argument to bust the cache (pass current timestamp or similar)
+ARG CACHEBUST=1
+
+# Clone the repository into a temporary directory
+WORKDIR /app
+RUN git clone https://github.com/nickzasukhin/devpunks-web.git .
+
+# Move files to nginx directory
+RUN rm -rf /usr/share/nginx/html/* && \
+    cp -r index.html src styles /usr/share/nginx/html/
 
 EXPOSE 80
 
