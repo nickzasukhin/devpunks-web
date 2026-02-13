@@ -35,14 +35,34 @@ docker run -d -p 8080:80 --name devpunks-web devpunks-web
 
 Open [http://localhost:8080](http://localhost:8080) to view the animation.
 
-### Development inside Container
+### Deployment (DigitalOcean)
 
-To update the running container with new code without rebuilding:
+The application is deployed on a DigitalOcean Droplet.
 
-```bash
-# Verify container is running
-docker ps
+- **IP Address**: `64.226.102.14`
+- **Port**: `8080`
+- **URL**: [http://64.226.102.14:8080](http://64.226.102.14:8080)
 
-# Update files on host, then rebuild or restart container as needed given it copies files at build time.
-# For hot-reloading development, mounting volumes would be required, but current setup is static.
-```
+### 🛠 Maintenance & Updates
+
+To update the application on the Droplet with the latest code from the `main` branch:
+
+1. **SSH into the Droplet**:
+   ```bash
+   ssh root@64.226.102.14
+   ```
+
+2. **Update the code and restart**:
+   ```bash
+   cd ~/personalweb
+   git pull origin main
+   docker stop devpunks-web && docker rm devpunks-web
+   docker build --build-arg CACHEBUST=$(date +%s) -t devpunks-web .
+   docker run -d -p 8080:80 --name devpunks-web devpunks-web
+   ```
+
+3. **Verify**:
+   ```bash
+   docker ps
+   curl -I http://localhost:8080
+   ```

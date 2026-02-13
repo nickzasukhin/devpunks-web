@@ -1,61 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>DevPunks</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <style>
-      /* Быстрые стили для центрирования на белом фоне */
-      body, html {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #ffffff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-      }
-      #root {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      dotlottie-player {
-        width: 3500px; /* Размер анимации */
-        height: 2500px;
-      }
-    </style>
+<head>
+  <meta charset="UTF-8" />
+  <title>DevPunks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
 
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
+    #root {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-    <script type="text/babel">
-      const App = () => {
-        return (
-          // Используем веб-компонент плеера внутри React
+    dotlottie-player {
+      width: 3500px;
+      height: 2500px;
+    }
+
+    /* macOS Style Toggle */
+    .switch-container {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 100;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 42px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #e9e9eb;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    input:checked+.slider {
+      background-color: #32d74b;
+      /* macOS Green */
+    }
+
+    /* Monotonic variant for dark/light */
+    input:checked+.slider.monotonic {
+      background-color: #3a3a3c;
+    }
+
+    input:focus+.slider {
+      box-shadow: 0 0 1px #e9e9eb;
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(18px);
+    }
+  </style>
+
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const App = () => {
+      const [isLightTheme, setIsLightTheme] = useState(true);
+
+      useEffect(() => {
+        document.body.style.backgroundColor = isLightTheme ? '#ffffff' : '#000000';
+      }, [isLightTheme]);
+
+      const toggleTheme = () => setIsLightTheme(!isLightTheme);
+
+      return (
+        <React.Fragment>
+          <div className="switch-container">
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={!isLightTheme}
+                onChange={toggleTheme}
+              />
+              <span className={`slider ${!isLightTheme ? 'monotonic' : ''}`}></span>
+            </label>
+          </div>
+
           <dotlottie-player
-            src="/src/assets/animation.json" // Ваш локальный путь в папке src
+            key={isLightTheme ? 'light' : 'dark'}
+            src={isLightTheme ? "/src/assets/dark_dev_punk_logo.json" : "/src/assets/white_dev_punks_logo.json"}
             background="transparent"
             speed="1"
             loop
             autoplay
           ></dotlottie-player>
-        );
-      };
+        </React.Fragment>
+      );
+    };
 
-      const root = ReactDOM.createRoot(document.getElementById('root'));
-      root.render(<App />);
-    </script>
-  </body>
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+
 </html>
